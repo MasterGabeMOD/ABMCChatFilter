@@ -2,3 +2,4 @@ main: server.alanbecker.net.Main
 name: ABMCSwearFilter
 version: 1
 api-version: 1.18
+folia-supported: true

@@ -1,5 +1,6 @@
 package server.alanbecker.net;
 
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -48,7 +49,8 @@ public class Main extends JavaPlugin {
 
                 String message = event.getMessage();
                 String filteredMessage = filterProfanity(message);
-                event.setMessage(filteredMessage);
+                TextComponent textComponent = new TextComponent(filteredMessage);
+                event.setMessage(textComponent.toLegacyText());
             }
         }
 
@@ -82,6 +84,7 @@ public class Main extends JavaPlugin {
                     {"\\b(b+(\\W|\\d|_)*i+(\\W|\\d|_)*t+(\\W|\\d|_)*c+(\\W|\\d|_)*h+(\\W|\\d|_)*)"},
                     {"\\b(p+(\\W|\\d|_)*e+(\\W|\\d|_)*n+(\\W|\\d|_)*i+(\\W|\\d|_)*s+(\\W|\\d|_)*)"},
                     {"\\b(c+(\\W|\\d|_)*o+(\\W|\\d|_)*c+(\\W|\\d|_)*k+(\\W|\\d|_)*)"},
+                    {"\\b(a+(\\W|\\d|_)*s+(\\W|\\d|_)*s+(\\W|\\d|_)*h+(\\W|\\d|_)*o+(\\W|\\d|_)*l+(\\W|\\d|_)*e+(\\W|\\d|_)*)"},
                     {"\\b(s+(\\W|\\d|_)*h+(\\W|\\d|_)*i+(\\W|\\d|_)*t+(\\W|\\d|_)*)"}
             };
 
