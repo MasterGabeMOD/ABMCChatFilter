@@ -95,6 +95,7 @@ public class Main extends JavaPlugin {
                     {"p+(\\W|\\d|_)*e+(\\W|\\d|_)*n+(\\W|\\d|_)*i+(\\W|\\d|_)*s+"},
                     {"c+(\\W|\\d|_)*o+(\\W|\\d|_)*c+(\\W|\\d|_)*k+"},
                     {"a+(\\W|\\d|_)*s+(\\W|\\d|_)*s+(\\W|\\d|_)*h+(\\W|\\d|_)*o+(\\W|\\d|_)*l+(\\W|\\d|_)*e+"},
+                    {"\\b(h+(\\W|\\d|_)*o+(\\W|\\d|_)*r+(\\W|\\d|_)*n+(\\W|\\d|_)*y+(\\W|\\d|_)*)"},
                     {"s+(\\W|\\d|_)*h+(\\W|\\d|_)*i+(\\W|\\d|_)*t+"}
             };
 
@@ -114,9 +115,6 @@ public class Main extends JavaPlugin {
 
             return message;
         }
-
-
-
 
 
         private String repeatString(String str, int times) {
