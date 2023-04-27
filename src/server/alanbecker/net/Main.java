@@ -23,6 +23,9 @@ public class Main extends JavaPlugin {
     public void onEnable() {
         getServer().getPluginManager().registerEvents(new ChatListener(), this);
         getCommand("abmcswear").setExecutor(new SwearVisibility(this));
+        getCommand("abmcclear").setExecutor(new ChatClear(this));
+
+
     }
 
     public class ChatListener implements Listener {

@@ -7,5 +7,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/Gabe/Documents/spigot-1.17.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Gabe/git/TaskChain/core/target/taskchain-core.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Gabe/git/TaskChain/bukkit/target/taskchain-bukkit.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

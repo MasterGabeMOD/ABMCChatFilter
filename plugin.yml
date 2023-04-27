@@ -7,4 +7,7 @@ commands:
   abmcswear:
     description: Toggles the visibility of swear words in chat.
     usage: /<command>
-
+  abmcclear:
+    description: Clears the chat history on the server.
+    usage: /<command>
+    permission: abmcswear.clear
