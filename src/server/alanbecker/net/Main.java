@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -18,10 +19,12 @@ import java.util.regex.Pattern;
 
 public class Main extends JavaPlugin {
 
-    @Override
-    public void onEnable() {
-        getServer().getPluginManager().registerEvents(new ChatListener(), this);
-    }
+	@Override
+	public void onEnable() {
+	    getServer().getPluginManager().registerEvents(new ChatListener(), this);
+	    getCommand("abmcswear").setExecutor(new SwearVisibility(this));
+	}
+
 
     public static class ChatListener implements Listener {
 
@@ -30,6 +33,17 @@ public class Main extends JavaPlugin {
         private final Map<UUID, String> playerLastMessages = new HashMap<>();
         private static final int CHAT_COOLDOWN = 2000; // 2000 milliseconds or 2 seconds
         private static final int COMMAND_COOLDOWN = 2000; // 2000 milliseconds or 2 seconds
+
+        private final HashSet<UUID> playersAllowedSwearing = new HashSet<>();
+
+        public void toggleSwearingVisibility(Player player) {
+            UUID playerId = player.getUniqueId();
+            if (playersAllowedSwearing.contains(playerId)) {
+                playersAllowedSwearing.remove(playerId);
+            } else {
+                playersAllowedSwearing.add(playerId);
+            }
+        }
 
         @EventHandler(priority = EventPriority.HIGH)
         public void onPlayerChat(AsyncPlayerChatEvent event) {
@@ -58,9 +72,11 @@ public class Main extends JavaPlugin {
                 }
                 playerLastMessages.put(playerId, message);
 
-                String filteredMessage = filterProfanity(message);
-                TextComponent textComponent = new TextComponent(filteredMessage);
-                event.setMessage(textComponent.toLegacyText());
+                if (!playersAllowedSwearing.contains(playerId)) {
+                    String filteredMessage = filterProfanity(message);
+                    TextComponent textComponent = new TextComponent(filteredMessage);
+                    event.setMessage(textComponent.toLegacyText());
+                }
             }
         }
 
@@ -126,5 +142,3 @@ public class Main extends JavaPlugin {
         }
     }
 }
-
-//work

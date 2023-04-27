@@ -1,5 +1,10 @@
 main: server.alanbecker.net.Main
-name: ABMCSwearFilter
+name: ABMCChatFilter
 version: 1
-api-version: 1.18
+api-version: 1.19
 folia-supported: true
+commands:
+  abmcswear:
+    description: Toggles the visibility of swear words in chat.
+    usage: /<command>
+
