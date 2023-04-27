@@ -41,7 +41,7 @@ public class Main extends JavaPlugin {
             UUID playerId = player.getUniqueId();
             if (playersAllowedSwearing.contains(playerId)) {
                 playersAllowedSwearing.remove(playerId);
-                player.sendMessage(ChatColor.GREEN + "Swearing visibility toggled off.");
+                player.sendMessage(ChatColor.RED + "Swearing visibility toggled off. You will no longer see swear words.");
             } else {
                 playersAllowedSwearing.add(playerId);
                 player.sendMessage(ChatColor.GREEN + "Swearing visibility toggled on.");

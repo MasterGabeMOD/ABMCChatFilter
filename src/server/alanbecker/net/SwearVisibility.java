@@ -31,7 +31,7 @@ public class SwearVisibility implements CommandExecutor {
                 if (chatListener != null) {
                     chatListener.toggleSwearingVisibility(player);
                     if (chatListener.playersAllowedSwearing.contains(player.getUniqueId())) {
-                        player.sendMessage(ChatColor.RED+ "Viewer discretion is advised!");
+                        player.sendMessage(ChatColor.GREEN+ "Viewer discretion is advised! Turning off the ChatFilter may be unsuitable for children and some adults! If you wish to toggle the ChatFilter, please type /abmcswear");
                     } else {
                     }
                 } else {
