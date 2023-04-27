@@ -30,7 +30,10 @@ public class SwearVisibility implements CommandExecutor {
 
                 if (chatListener != null) {
                     chatListener.toggleSwearingVisibility(player);
-                    player.sendMessage(ChatColor.GREEN + "Swearing visibility toggled.");
+                    if (chatListener.playersAllowedSwearing.contains(player.getUniqueId())) {
+                        player.sendMessage(ChatColor.RED+ "Viewer discretion is advised!");
+                    } else {
+                    }
                 } else {
                     player.sendMessage(ChatColor.RED + "Error: ChatListener not found.");
                 }

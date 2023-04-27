@@ -1,6 +1,5 @@
 package server.alanbecker.net;
 
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,35 +12,39 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Main extends JavaPlugin {
 
-	@Override
-	public void onEnable() {
-	    getServer().getPluginManager().registerEvents(new ChatListener(), this);
-	    getCommand("abmcswear").setExecutor(new SwearVisibility(this));
-	}
+    @Override
+    public void onEnable() {
+        getServer().getPluginManager().registerEvents(new ChatListener(), this);
+        getCommand("abmcswear").setExecutor(new SwearVisibility(this));
+    }
 
-
-    public static class ChatListener implements Listener {
+    public class ChatListener implements Listener {
+    	
 
         private final Map<UUID, Long> playerChatTimestamps = new HashMap<>();
-        private final Map<UUID, Long> playerCommandTimestamps = new HashMap<>();
         private final Map<UUID, String> playerLastMessages = new HashMap<>();
         private static final int CHAT_COOLDOWN = 2000; // 2000 milliseconds or 2 seconds
         private static final int COMMAND_COOLDOWN = 2000; // 2000 milliseconds or 2 seconds
 
-        private final HashSet<UUID> playersAllowedSwearing = new HashSet<>();
+        private final Map<UUID, Long> playerCommandTimestamps = new HashMap<>();
+        protected final HashSet<UUID> playersAllowedSwearing = new HashSet<>();
+        
 
         public void toggleSwearingVisibility(Player player) {
             UUID playerId = player.getUniqueId();
             if (playersAllowedSwearing.contains(playerId)) {
                 playersAllowedSwearing.remove(playerId);
+                player.sendMessage(ChatColor.GREEN + "Swearing visibility toggled off.");
             } else {
                 playersAllowedSwearing.add(playerId);
+                player.sendMessage(ChatColor.GREEN + "Swearing visibility toggled on.");
             }
         }
 
@@ -72,13 +75,21 @@ public class Main extends JavaPlugin {
                 }
                 playerLastMessages.put(playerId, message);
 
-                if (!playersAllowedSwearing.contains(playerId)) {
-                    String filteredMessage = filterProfanity(message);
-                    TextComponent textComponent = new TextComponent(filteredMessage);
-                    event.setMessage(textComponent.toLegacyText());
+                Set<Player> filteredMessageRecipients = new HashSet<>();
+                for (Player recipient : event.getRecipients()) {
+                    UUID recipientId = recipient.getUniqueId();
+                    if (!playersAllowedSwearing.contains(recipientId)) {
+                        String filteredMessage = filterProfanity(event.getMessage());
+                        recipient.sendMessage(String.format(event.getFormat(), event.getPlayer().getDisplayName(), filteredMessage));
+                    } else {
+                        filteredMessageRecipients.add(recipient);
+                    }
                 }
+                event.getRecipients().clear();
+                event.getRecipients().addAll(filteredMessageRecipients);
             }
         }
+
 
         @EventHandler(priority = EventPriority.HIGH)
         public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
@@ -93,6 +104,7 @@ public class Main extends JavaPlugin {
                         event.setCancelled(true);
                         player.sendMessage(ChatColor.RED + "Please wait " + (COMMAND_COOLDOWN - elapsedTime) / 1000 + " seconds before sending another command.");
                         return;
+                        
                     }
                 }
                 playerCommandTimestamps.put(playerId, currentTime);
