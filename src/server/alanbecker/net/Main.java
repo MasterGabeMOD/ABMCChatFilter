@@ -52,7 +52,12 @@ public class Main extends JavaPlugin {
         }
         
         private String filterHardcodedProfanity(String message) {
-            String[] hardcodedProfanities = {"n+(\\\\W|\\\\d|_)*i+(\\\\W|\\\\d|_)*g+(\\\\W|\\\\d|_)*g+(\\\\W|\\\\d|_)*e+(\\\\W|\\\\d|_)*r+"};
+            String[] hardcodedProfanities = {
+                "n+(\\W|\\d|_)*i+(\\W|\\d|_)*g+(\\W|\\d|_)*g+(\\W|\\d|_)*e+(\\W|\\d|_)*r+",
+                "n+(\\\\W|\\\\d|_)*i+(\\\\W|\\\\d|_)*g+(\\\\W|\\\\d|_)*g+(\\\\W|\\\\d|_)*a+",
+                "f+(\\W|\\d|_)*u+(\\W|\\d|_)*c+(\\W|\\d|_)*k+",
+                "\\\\b(n+(\\\\W|\\\\d|_)*i+(\\\\W|\\\\d|_)*b+(\\\\W|\\\\d|_)*b+(\\\\W|\\\\d|_)*a+(\\\\W|\\\\d|_)*)"
+            };
 
             for (String profanity : hardcodedProfanities) {
                 String pattern = "(?i)" + profanity;
@@ -158,6 +163,11 @@ public class Main extends JavaPlugin {
                     {"c+(\\W|\\d|_)*o+(\\W|\\d|_)*c+(\\W|\\d|_)*k+"},
                     {"a+(\\W|\\d|_)*s+(\\W|\\d|_)*s+(\\W|\\d|_)*h+(\\W|\\d|_)*o+(\\W|\\d|_)*l+(\\W|\\d|_)*e+"},
                     {"\\b(h+(\\W|\\d|_)*o+(\\W|\\d|_)*r+(\\W|\\d|_)*n+(\\W|\\d|_)*y+(\\W|\\d|_)*)"},
+                    {"\\b(r+(\\W|\\d|_)*a+(\\W|\\d|_)*p+(\\W|\\d|_)*e+(\\W|\\d|_)*)\\b"},
+                    {"\\b(r+(\\W|\\d|_)*a+(\\W|\\d|_)*p+(\\W|\\d|_)*i+(\\W|\\d|_)*s+(\\W|\\d|_)*t+(\\W|\\d|_)*)"},
+                    {"\\b(c+(\\W|\\d|_)*u+(\\W|\\d|_)*n+(\\W|\\d|_)*t+(\\W|\\d|_)*)"},
+                    {"\\b(a+(\\W|\\d|_)*n+(\\W|\\d|_)*a+(\\W|\\d|_)*l+(\\W|\\d|_)*)\\b"},
+                    {"\\b(n+(\\W|\\d|_)*i+(\\W|\\d|_)*b+(\\W|\\d|_)*b+(\\W|\\d|_)*a+(\\W|\\d|_)*)"},
                     {"s+(\\W|\\d|_)*h+(\\W|\\d|_)*i+(\\W|\\d|_)*t+"}
             };
 
