@@ -50,6 +50,27 @@ public class Main extends JavaPlugin {
                 player.sendMessage(ChatColor.GREEN + "Swearing visibility toggled on.");
             }
         }
+        
+        private String filterHardcodedProfanity(String message) {
+            String[] hardcodedProfanities = {"n+(\\\\W|\\\\d|_)*i+(\\\\W|\\\\d|_)*g+(\\\\W|\\\\d|_)*g+(\\\\W|\\\\d|_)*e+(\\\\W|\\\\d|_)*r+"};
+
+            for (String profanity : hardcodedProfanities) {
+                String pattern = "(?i)" + profanity;
+                Matcher matcher = Pattern.compile(pattern).matcher(message);
+                StringBuffer result = new StringBuffer();
+
+                while (matcher.find()) {
+                    String replacement = repeatString("*", matcher.group().length());
+                    matcher.appendReplacement(result, replacement);
+                }
+
+                matcher.appendTail(result);
+                message = result.toString();
+            }
+
+            return message;
+        }
+
 
         @EventHandler(priority = EventPriority.HIGH)
         public void onPlayerChat(AsyncPlayerChatEvent event) {
@@ -78,20 +99,30 @@ public class Main extends JavaPlugin {
                 }
                 playerLastMessages.put(playerId, message);
 
-                Set<Player> filteredMessageRecipients = new HashSet<>();
+                // Filter the message for all players
+                String filteredMessage = filterProfanity(event.getMessage());
+                String alwaysFilteredMessage = filterHardcodedProfanity(event.getMessage());
+
+                Set<Player> recipientsToRemove = new HashSet<>();
                 for (Player recipient : event.getRecipients()) {
                     UUID recipientId = recipient.getUniqueId();
                     if (!playersAllowedSwearing.contains(recipientId)) {
-                        String filteredMessage = filterProfanity(event.getMessage());
-                        recipient.sendMessage(String.format(event.getFormat(), event.getPlayer().getDisplayName(), filteredMessage));
+                        // Apply both filters for players who have swearing visibility off
+                        String combinedFilteredMessage = filterHardcodedProfanity(filteredMessage);
+                        recipient.sendMessage(String.format(event.getFormat(), event.getPlayer().getDisplayName(), combinedFilteredMessage));
+                        recipientsToRemove.add(recipient);
                     } else {
-                        filteredMessageRecipients.add(recipient);
+                        // Apply only the hardcoded filter for players who have swearing visibility on
+                        recipient.sendMessage(String.format(event.getFormat(), event.getPlayer().getDisplayName(), alwaysFilteredMessage));
+                        recipientsToRemove.add(recipient);
                     }
                 }
-                event.getRecipients().clear();
-                event.getRecipients().addAll(filteredMessageRecipients);
+                event.getRecipients().removeAll(recipientsToRemove);
+                event.setCancelled(true);
             }
         }
+
+
 
 
         @EventHandler(priority = EventPriority.HIGH)
