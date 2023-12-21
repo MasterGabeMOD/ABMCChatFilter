@@ -56,7 +56,10 @@ public class Main extends JavaPlugin {
                 "n+(\\W|\\d|_)*i+(\\W|\\d|_)*g+(\\W|\\d|_)*g+(\\W|\\d|_)*e+(\\W|\\d|_)*r+",
                 "n+(\\\\W|\\\\d|_)*i+(\\\\W|\\\\d|_)*g+(\\\\W|\\\\d|_)*g+(\\\\W|\\\\d|_)*a+",
                 "f+(\\W|\\d|_)*u+(\\W|\\d|_)*c+(\\W|\\d|_)*k+",
-                "\\\\b(n+(\\\\W|\\\\d|_)*i+(\\\\W|\\\\d|_)*b+(\\\\W|\\\\d|_)*b+(\\\\W|\\\\d|_)*a+(\\\\W|\\\\d|_)*)"
+                "p+(\\W|\\d|_)*o+(\\W|\\d|_)*r+(\\W|\\d|_)*n+(\\W|\\d|_)*",
+                "f+(\\W|\\d|_)*a+(\\W|\\d|_)*g+(\\W|\\d|_)*g+(\\W|\\d|_)*o+(\\W|\\d|_)*t+",
+                "\\\\b(n+(\\\\W|\\\\d|_)*i+(\\\\W|\\\\d|_)*b+(\\\\W|\\\\d|_)*b+(\\\\W|\\\\d|_)*a+(\\\\W|\\\\d|_)*)",
+                
             };
 
             for (String profanity : hardcodedProfanities) {
@@ -77,7 +80,7 @@ public class Main extends JavaPlugin {
         }
 
 
-        @EventHandler(priority = EventPriority.HIGH)
+        @EventHandler(priority = EventPriority.LOWEST)
         public void onPlayerChat(AsyncPlayerChatEvent event) {
             Player player = event.getPlayer();
             UUID playerId = player.getUniqueId();
@@ -130,7 +133,7 @@ public class Main extends JavaPlugin {
 
 
 
-        @EventHandler(priority = EventPriority.HIGH)
+        @EventHandler(priority = EventPriority.LOWEST)
         public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
             Player player = event.getPlayer();
             UUID playerId = player.getUniqueId();

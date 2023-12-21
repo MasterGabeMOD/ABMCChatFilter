@@ -11,3 +11,4 @@ commands:
     description: Clears the chat history on the server.
     usage: /<command>
     permission: abmcswear.clear
+

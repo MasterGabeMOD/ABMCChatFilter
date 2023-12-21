@@ -30,4 +30,3 @@ public class ChatClear implements CommandExecutor {
         }
     }
 }
-//This is just a test
